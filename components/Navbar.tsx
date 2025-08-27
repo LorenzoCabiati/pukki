@@ -8,8 +8,10 @@ type Props = {
 
 export default function Navbar({ sections, activeSection, goTo }: Props) {
   return (
-    <nav className="fixed top-0 left-0 w-full flex justify-center items-center px-6 md:px-12 py-4 z-50 text text-lg">
-      <div className="flex gap-10">
+    <nav className="fixed top-0 left-0 w-full flex flex-col md:flex-row justify-between items-center px-6 md:px-12 py-4 z-50 text-lg">
+      
+      {/* Section buttons - hidden on mobile */}
+      <div className="hidden md:flex gap-10 mx-auto">
         {sections.slice(1).map((sec, i) => (
           <button
             key={sec}
@@ -25,7 +27,8 @@ export default function Navbar({ sections, activeSection, goTo }: Props) {
         ))}
       </div>
 
-      <div className="absolute right-6 flex gap-4 text-xl">
+      {/* Social icons - always visible, add margin-top on mobile */}
+      <div className="flex gap-4 text-xl mt-4 md:mt-0">
         <a
           href="https://www.instagram.com/el_nicopukki/"
           target="_blank"

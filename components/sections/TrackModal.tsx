@@ -62,7 +62,7 @@ export default function TrackModal({ trackId, onClose }: Props) {
       ></div>
 
       <div className="fixed inset-10 md:inset-40 bg-neutral-900 rounded-2xl shadow-2xl z-[70] flex flex-col max-w-4xl mx-auto h-auto">
-        {/* Header: X */}
+        {/* Header */}
         <div className="relative p-4">
           <button
             onClick={onClose}
@@ -73,7 +73,7 @@ export default function TrackModal({ trackId, onClose }: Props) {
           </button>
         </div>
 
-        {/* Contenuto */}
+        {/* Contenuto principale */}
         <div className="flex flex-col md:flex-row p-6 gap-6">
           <div className="md:w-1/2 flex items-center justify-center">
             <div className="w-full max-w-sm aspect-square bg-gray-700 rounded-2xl flex items-center justify-center text-gray-400 text-xl">
@@ -105,7 +105,7 @@ export default function TrackModal({ trackId, onClose }: Props) {
         </div>
 
         {/* Barra comandi */}
-        <div className="p-4 border-t border-neutral-700">
+        <div className="p-4 border-t border-neutral-700 mt-auto">
           <div className="max-w-5xl mx-auto flex items-center gap-4">
             <button
               onClick={togglePlay}

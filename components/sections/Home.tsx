@@ -2,12 +2,12 @@ export default function Home() {
   return (
     <section
       id="home"
-      className="h-screen w-screen flex flex-col justify-center items-start px-10 md:px-20 relative overflow-hidden bg-no-repeat"
-      style={{
-        backgroundImage: "url('/pukki_tagliato_red.png')",
-        backgroundSize: "auto 90%",
-        backgroundPosition: "80% bottom",
-      }}
+      className="
+        h-screen w-screen flex flex-col justify-center items-start
+        px-10 md:px-20 relative overflow-hidden bg-no-repeat
+        md:bg-[url('/pukki_tagliato_red.png')]
+        md:bg-[length:auto_90%] md:bg-[position:80%_bottom]
+      "
     >
       <h1 className="text-6xl md:text-7xl font-extrabold text-white mb-4 relative z-10">
         Pukki
