@@ -4,7 +4,15 @@ export default function Bio() {
   return (
     <section
       id="bio"
-      className="h-screen w-full flex flex-col items-center justify-center px-6 md:px-16"
+      className="
+    w-full 
+    h-auto 
+    px-6 
+    pt-10 md:pt-32 pb-20 
+    md:px-16 
+    md:h-screen 
+    md:flex md:flex-col md:justify-center md:items-center
+  "
     >
       {/* Intro */}
       <div className="max-w-2xl text-center mb-6 md:mb-8">
@@ -13,7 +21,7 @@ export default function Bio() {
         </h2>
         <p className="text-gray-400 text-sm md:text-lg leading-relaxed">
           Sono un <span className="text-red-500 font-semibold">music producer</span> e{" "}
-          <span className="text-red-500 font-semibold">mix & mastering engineer</span>, 
+          <span className="text-red-500 font-semibold">mix & mastering engineer</span>,
           con un percorso che unisce passione per il suono, ricerca estetica e sperimentazione.
         </p>
       </div>
@@ -29,8 +37,27 @@ export default function Bio() {
         </div>
       </div>
 
+      {/* Skills */}
+      <div className="flex flex-wrap justify-center gap-2 md:gap-3 mb-6">
+        {[
+          { label: "Hip-Hop", icon: <FaMusic /> },
+          { label: "Electronic", icon: <FaWaveSquare /> },
+          { label: "Mixing", icon: <FaHeadphones /> },
+          { label: "Mastering", icon: <FaLaptop /> },
+          { label: "Lo-Fi / Chill", icon: <FaCompactDisc /> },
+        ].map((skill, i) => (
+          <div
+            key={i}
+            className="flex items-center gap-1 px-2 md:px-3 py-1 bg-neutral-800 rounded-full border border-neutral-700 text-gray-300 text-xs md:text-sm hover:border-red-500 hover:text-red-500 transition"
+          >
+            {skill.icon}
+            <span>{skill.label}</span>
+          </div>
+        ))}
+      </div>
+
       {/* Timeline compatta */}
-      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-10">
+      <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-10 auto-rows-auto">
         {[
           {
             year: "2015",
@@ -55,7 +82,7 @@ export default function Bio() {
         ].map((item, i) => (
           <div
             key={i}
-            className="flex flex-col items-center text-center bg-neutral-900/50 p-3 md:p-4 rounded-xl border border-neutral-800 hover:border-red-500 transition"
+            className="flex flex-col items-center text-center bg-neutral-900/50 p-3 md:p-4 rounded-xl  transition"
           >
             <div className="mb-2 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-neutral-950 border border-red-500">
               {item.icon}
@@ -66,24 +93,7 @@ export default function Bio() {
         ))}
       </div>
 
-      {/* Skills */}
-      <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-        {[
-          { label: "Hip-Hop", icon: <FaMusic /> },
-          { label: "Electronic", icon: <FaWaveSquare /> },
-          { label: "Mixing", icon: <FaHeadphones /> },
-          { label: "Mastering", icon: <FaLaptop /> },
-          { label: "Lo-Fi / Chill", icon: <FaCompactDisc /> },
-        ].map((skill, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-1 px-2 md:px-3 py-1 bg-neutral-800 rounded-full border border-neutral-700 text-gray-300 text-xs md:text-sm hover:border-red-500 hover:text-red-500 transition"
-          >
-            {skill.icon}
-            <span>{skill.label}</span>
-          </div>
-        ))}
-      </div>
+
     </section>
   );
 }

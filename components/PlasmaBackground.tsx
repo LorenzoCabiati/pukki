@@ -43,7 +43,8 @@ export default function PlasmaBackground({ children }: Props) {
   };
 
   return (
-    <div className="relative h-screen w-screen overflow-hidden font-sans text-gray-200" style={plasmaStyle}>
+    <div className="relative w-screen overflow-hidden md:h-screen"
+      style={plasmaStyle}>
       {children}
     </div>
   );
