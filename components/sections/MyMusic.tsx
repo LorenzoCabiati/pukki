@@ -1,43 +1,90 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createClient } from "@supabase/supabase-js";
 import TrackModal from "./TrackModal";
+import { FaPlay } from "react-icons/fa";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
 
 export default function MyMusic() {
-  const [selectedTrack, setSelectedTrack] = useState<number | null>(null);
+  const [tracks, setTracks] = useState<any[]>([]);
+  const [selectedTrack, setSelectedTrack] = useState<any | null>(null);
+
+  useEffect(() => {
+    const fetchTracks = async () => {
+      const { data, error } = await supabase
+        .from("tracks")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(6);
+
+      if (error) {
+        console.error("Errore nel fetch dei tracks:", error.message);
+      } else {
+        setTracks(data || []);
+      }
+      console.log("chiamata")
+    };
+
+    fetchTracks();
+  }, []);
 
   return (
     <section
       id="my-music"
-      className="h-auto min-h-screen w-screen flex flex-col items-center justify-center px-4 md:px-16 py-10 relative"
+      className="h-screen w-full flex flex-col items-center justify-center px-4 md:px-16"
     >
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 md:mb-10">
-        My Music
-      </h2>
+      {/* Titolo + descrizione */}
+      <div className="text-center mb-6 md:mb-10 max-w-2xl">
+        <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-3 md:mb-4">
+          My Music
+        </h2>
+        <p className="text-gray-400 text-sm md:text-lg leading-relaxed">
+          Una selezione di produzioni e progetti che raccontano il mio percorso musicale.
+        </p>
+      </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 md:gap-8 w-full max-w-6xl">
-        {Array.from({ length: 6 }).map((_, i) => (
+      {/* Griglia tracce */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 w-full max-w-5xl">
+        {tracks.map((track) => (
           <div
-            key={i}
-            onClick={() => setSelectedTrack(i + 1)}
-            className="cursor-pointer relative rounded-2xl overflow-hidden shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+            key={track.id}
+            onClick={() => setSelectedTrack(track)}
+            className="cursor-pointer relative rounded-2xl overflow-hidden group"
           >
-            {/* MOBILE: solo nome centrato */}
-            <div className="flex items-center justify-center h-32 sm:h-40 md:hidden bg-gradient-to-br from-red-600 to-red-800">
-              <h3 className="text-lg font-semibold text-white">
-                Track {i + 1}
+            {/* MOBILE */}
+            <div className="flex md:hidden items-center justify-center h-28 sm:h-32 bg-gradient-to-br from-red-600 to-red-800">
+              <h3 className="text-white text-sm sm:text-base font-semibold">
+                {track.title}
               </h3>
             </div>
 
-            {/* DESKTOP: layout originale */}
-            <div className="hidden md:block bg-neutral-800 rounded-2xl overflow-hidden">
-              <div className="h-40 bg-gradient-to-br from-red-600 to-red-800"></div>
-              <div className="p-5">
-                <h3 className="text-xl font-semibold text-white mb-2">
-                  Track {i + 1}
+            {/* DESKTOP */}
+            <div className="hidden md:flex flex-col bg-neutral-900 rounded-2xl overflow-hidden shadow-lg hover:shadow-red-500/30 hover:scale-105 transition">
+              {/* Copertina */}
+              <div className="relative h-40 bg-neutral-800 flex items-center justify-center">
+                {track.artwork_url ? (
+                  <img
+                    src={track.artwork_url}
+                    alt={track.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <FaPlay className="text-white text-2xl opacity-80 group-hover:opacity-100 transition" />
+                )}
+              </div>
+
+              {/* Info traccia */}
+              <div className="p-4 flex flex-col">
+                <h3 className="text-lg font-semibold text-white mb-1">
+                  {track.title}
                 </h3>
-                <p className="text-gray-400 text-sm">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                <p className="text-gray-400 text-sm line-clamp-2">
+                  {track.description}
                 </p>
               </div>
             </div>
@@ -45,8 +92,12 @@ export default function MyMusic() {
         ))}
       </div>
 
+      {/* Modal */}
       {selectedTrack && (
-        <TrackModal trackId={selectedTrack} onClose={() => setSelectedTrack(null)} />
+        <TrackModal
+          track={selectedTrack}
+          onClose={() => setSelectedTrack(null)}
+        />
       )}
     </section>
   );

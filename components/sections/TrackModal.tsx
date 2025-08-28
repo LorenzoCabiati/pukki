@@ -4,11 +4,11 @@ import { useEffect, useRef, useState } from "react";
 import { FaPlay, FaPause, FaTimes, FaVolumeUp } from "react-icons/fa";
 
 type Props = {
-  trackId: number;
+  track: any;
   onClose: () => void;
 };
 
-export default function TrackModal({ trackId, onClose }: Props) {
+export default function TrackModal({ track, onClose }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -20,7 +20,7 @@ export default function TrackModal({ trackId, onClose }: Props) {
     setProgress(0);
     setVolume(70);
     if (audioRef.current) audioRef.current.volume = 0.7;
-  }, [trackId]);
+  }, [track]);
 
   const formatTime = (seconds: number) => {
     if (isNaN(seconds)) return "0:00";
@@ -76,17 +76,25 @@ export default function TrackModal({ trackId, onClose }: Props) {
         {/* Contenuto principale */}
         <div className="flex flex-col md:flex-row p-6 gap-6">
           <div className="md:w-1/2 flex items-center justify-center">
-            <div className="w-full max-w-sm aspect-square bg-gray-700 rounded-2xl flex items-center justify-center text-gray-400 text-xl">
-              Placeholder Image
-            </div>
+            {track.artwork_url ? (
+              <img
+                src={track.artwork_url}
+                alt={track.title}
+                className="w-full max-w-sm aspect-square rounded-2xl object-cover"
+              />
+            ) : (
+              <div className="w-full max-w-sm aspect-square bg-gray-700 rounded-2xl flex items-center justify-center text-gray-400 text-xl">
+                No Image
+              </div>
+            )}
           </div>
 
           <div className="md:w-1/2 flex flex-col justify-center gap-3 text-gray-300">
-            <h3 className="text-2xl font-bold text-white">Track {trackId}</h3>
-            <p className="text-sm text-gray-400">Autore: Pukki</p>
+            <h3 className="text-2xl font-bold text-white">{track.title}</h3>
+            <p className="text-sm text-gray-400">Autore: {track.author}</p>
 
             <div className="flex gap-2 flex-wrap">
-              {["Electronic", "Synthwave"].map((genre) => (
+              {track.genres?.map((genre: string) => (
                 <span
                   key={genre}
                   className="px-2 py-1 text-xs rounded-full bg-neutral-800 text-gray-300 border border-neutral-600"
@@ -96,11 +104,7 @@ export default function TrackModal({ trackId, onClose }: Props) {
               ))}
             </div>
 
-            <p className="text-gray-300">
-              Questa è una descrizione di esempio per la traccia {trackId}. Qui
-              puoi aggiungere dettagli sul brano, crediti, strumenti usati,
-              note di produzione o il concept dietro al pezzo.
-            </p>
+            <p className="text-gray-300">{track.description}</p>
           </div>
         </div>
 
@@ -153,7 +157,7 @@ export default function TrackModal({ trackId, onClose }: Props) {
         {/* Audio player invisibile */}
         <audio
           ref={audioRef}
-          src={`/tracks/track${trackId}.mp3`}
+          src={track.audio_url}
           onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
           onTimeUpdate={(e) =>
             setProgress(

@@ -5,7 +5,7 @@ export default function Home() {
       className="
         h-screen w-screen flex flex-col justify-center items-start
         px-10 md:px-20 relative overflow-hidden bg-no-repeat
-        md:bg-[url('/pukki_tagliato_red.png')]
+        md:bg-[url('/images/pukki_tagliato_red.png')]
         md:bg-[length:auto_90%] md:bg-[position:80%_bottom]
       "
     >
