@@ -87,7 +87,7 @@ export default function Navbar({ sections, activeSection, goTo }: Props) {
                   </button>
                   <hr className="border-neutral-700" />
                   <button
-                    className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-500 hover:text-white"
+                    className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-red-600/20"
                     onClick={handleLogout}
                   >
                     Logout
